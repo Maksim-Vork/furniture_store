@@ -60,10 +60,7 @@ class CatalogScreen extends StatelessWidget {
                             ),
                         itemBuilder: (context, index) {
                           final product = products[index];
-                          return ProductCard(
-                            name: product.name,
-                            price: '${product.price} BYN',
-                          );
+                          return ProductCard(product: product);
                         },
                       );
                     } else if (state is CatalogError) {

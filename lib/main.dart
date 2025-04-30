@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:project/core/network/dio_service.dart';
+import 'package:project/features/cart/presentation/bloc/cart_bloc.dart';
 
 import 'package:project/features/catalog/data/datasources/product_remote_data_source.dart';
 import 'package:project/features/catalog/data/repositoryes/product_repository_impl.dart';
@@ -26,8 +27,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => CatalogBloc(catalogUseCase)..add(LoadProducts()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<CatalogBloc>(
+          create: (context) => CatalogBloc(catalogUseCase)..add(LoadProducts()),
+        ),
+        BlocProvider<CartBloc>(create: (context) => CartBloc()),
+      ],
+
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Каталог',

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project/features/cart/presentation/bloc/cart_bloc.dart';
+import 'package:project/features/cart/presentation/bloc/cart_event.dart';
+import 'package:project/features/catalog/domain/entity/product.dart';
 
 class ProductCard extends StatelessWidget {
-  final String name;
-  final String price;
+  final Product product;
 
-  const ProductCard({super.key, required this.name, required this.price});
+  const ProductCard({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +25,19 @@ class ProductCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 4),
-          Text(name, style: const TextStyle(fontWeight: FontWeight.bold)),
-          Text(price, style: const TextStyle(color: Colors.green)),
+          Text(
+            product.name,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          Text(
+            '${product.name} BYN',
+            style: const TextStyle(color: Colors.green),
+          ),
           const Spacer(),
           ElevatedButton.icon(
-            onPressed: () {},
+            onPressed: () {
+              BlocProvider.of<CartBloc>(context).add(AddProduct(product));
+            },
             icon: const Icon(Icons.shopping_cart),
             label: const Text("Заказать"),
             style: ElevatedButton.styleFrom(

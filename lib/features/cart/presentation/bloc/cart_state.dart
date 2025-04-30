@@ -1,7 +1,7 @@
 import 'package:project/features/cart/domain/entity/product_count.dart';
 
-class BlocState {
+class CartState {
   final List<ProductCount> bascet;
 
-  BlocState(this.bascet);
+  CartState(this.bascet);
 }

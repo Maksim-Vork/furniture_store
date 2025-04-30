@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project/features/cart/presentation/pages/cart_pages.dart';
 import 'package:project/features/catalog/presentation/bloc/catalog_bloc.dart';
 import 'package:project/features/catalog/presentation/bloc/catalog_state.dart';
 import 'package:project/features/catalog/presentation/pages/widgets/product_card.dart';
@@ -14,10 +15,19 @@ class CatalogScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.grey[850],
         title: const Text(""),
-        actions: const [
+        actions: [
           Icon(Icons.grid_view, color: Colors.white),
           SizedBox(width: 16),
-          Icon(Icons.shopping_cart, color: Colors.white),
+
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => BascetPages()),
+              );
+            },
+            icon: Icon(Icons.shopping_cart, color: Colors.white),
+          ),
           SizedBox(width: 16),
         ],
       ),

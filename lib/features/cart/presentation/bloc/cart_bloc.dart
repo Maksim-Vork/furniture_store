@@ -3,8 +3,8 @@ import 'package:project/features/cart/domain/entity/product_count.dart';
 import 'package:project/features/cart/presentation/bloc/cart_event.dart';
 import 'package:project/features/cart/presentation/bloc/cart_state.dart';
 
-class CartBloc extends Bloc<BlocEvent, BlocState> {
-  CartBloc() : super(BlocState([])) {
+class CartBloc extends Bloc<BlocEvent, CartState> {
+  CartBloc() : super(CartState([])) {
     on<AddProduct>(_onAdd);
     on<DeleteProduct>(_onDelete);
     on<CalculatePriceProduct>(_onCalculate);
@@ -12,21 +12,21 @@ class CartBloc extends Bloc<BlocEvent, BlocState> {
     on<DecreaseCountProduct>(_onDecrease);
   }
 
-  void _onAdd(AddProduct event, Emitter<BlocState> emit) {
+  void _onAdd(AddProduct event, Emitter<CartState> emit) {
     final updateList = List<ProductCount>.from(state.bascet)
       ..add(ProductCount(event.product, 1));
-    emit(BlocState(updateList));
+    emit(CartState(updateList));
   }
 
-  void _onDelete(DeleteProduct event, Emitter<BlocState> emit) {
+  void _onDelete(DeleteProduct event, Emitter<CartState> emit) {
     final updateList = List<ProductCount>.from(state.bascet)
       ..removeAt(event.index);
-    emit(BlocState(updateList));
+    emit(CartState(updateList));
   }
 
-  void _onCalculate(CalculatePriceProduct event, Emitter<BlocState> emit) {}
+  void _onCalculate(CalculatePriceProduct event, Emitter<CartState> emit) {}
 
-  void _onIncrement(IncrementCountProduct event, Emitter<BlocState> emit) {
+  void _onIncrement(IncrementCountProduct event, Emitter<CartState> emit) {
     final current = state.bascet[event.index];
     final double countUpdate = current.count + 1;
 
@@ -35,10 +35,10 @@ class CartBloc extends Bloc<BlocEvent, BlocState> {
     final updatedBascet = List<ProductCount>.from(state.bascet)
       ..[event.index] = updatedProduct;
 
-    emit(BlocState(updatedBascet));
+    emit(CartState(updatedBascet));
   }
 
-  void _onDecrease(DecreaseCountProduct event, Emitter<BlocState> emit) {
+  void _onDecrease(DecreaseCountProduct event, Emitter<CartState> emit) {
     final current = state.bascet[event.index];
     final double countUpdate = current.count - 1;
 
@@ -47,6 +47,6 @@ class CartBloc extends Bloc<BlocEvent, BlocState> {
     final updatedBascet = List<ProductCount>.from(state.bascet)
       ..[event.index] = updatedProduct;
 
-    emit(BlocState(updatedBascet));
+    emit(CartState(updatedBascet));
   }
 }

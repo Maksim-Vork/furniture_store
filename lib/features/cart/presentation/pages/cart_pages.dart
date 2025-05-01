@@ -267,7 +267,13 @@ class CartProduct extends StatelessWidget {
                     ),
 
                     child: Center(
-                      child: Text(productCount.product.price.toString()),
+                      child: BlocBuilder<CartBloc, CartState>(
+                        builder: (context, state) {
+                          return Text(
+                            '${productCount.product.price * productCount.count}',
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ),

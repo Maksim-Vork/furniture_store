@@ -1,3 +1,4 @@
+import 'package:project/features/cart/domain/entity/product_count.dart';
 import 'package:project/features/catalog/domain/entity/product.dart';
 
 abstract class BlocEvent {}
@@ -9,21 +10,27 @@ class AddProduct extends BlocEvent {
 }
 
 class DeleteProduct extends BlocEvent {
-  final int index;
+  final String name;
 
-  DeleteProduct(this.index);
+  DeleteProduct(this.name);
 }
 
-class CalculatePriceProduct extends BlocEvent {}
+class CalculatePriceProduct extends BlocEvent {
+  final List<ProductCount> products;
+
+  CalculatePriceProduct(this.products);
+}
 
 class IncrementCountProduct extends BlocEvent {
-  final int index;
+  final String name;
 
-  IncrementCountProduct(this.index);
+  IncrementCountProduct(this.name);
 }
 
 class DecreaseCountProduct extends BlocEvent {
-  final int index;
+  final String name;
 
-  DecreaseCountProduct(this.index);
+  DecreaseCountProduct(this.name);
 }
+
+class DeleteAll extends BlocEvent {}

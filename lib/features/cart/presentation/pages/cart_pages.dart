@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project/features/cart/domain/entity/product_count.dart';
 import 'package:project/features/cart/presentation/bloc/cart_bloc.dart';
+import 'package:project/features/cart/presentation/bloc/cart_event.dart';
 import 'package:project/features/cart/presentation/bloc/cart_state.dart';
 
 class BascetPages extends StatelessWidget {
@@ -36,65 +37,78 @@ class BascetPages extends StatelessWidget {
                   SizedBox(height: 30),
                   Row(
                     children: [
-                      Container(
-                        width: 400,
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(98, 158, 158, 158),
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                width: double.infinity,
-                                height: 70,
-                                child: ElevatedButton(
-                                  onPressed: () {},
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.green,
-                                    foregroundColor: Colors.white,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15.0),
-                                    ),
-                                    minimumSize: Size(double.infinity, 70),
-                                  ),
-                                  child: Text('Рассчитать стоимость'),
-                                ),
-                              ),
-                              SizedBox(height: 15),
-                              Row(
+                      BlocBuilder<CartBloc, CartState>(
+                        builder: (context, state) {
+                          return Container(
+                            width: 400,
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(98, 158, 158, 158),
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Column(
                                 children: [
+                                  SizedBox(
+                                    width: double.infinity,
+                                    height: 70,
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        BlocProvider.of<CartBloc>(context).add(
+                                          CalculatePriceProduct(state.bascet),
+                                        );
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.green,
+                                        foregroundColor: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            15.0,
+                                          ),
+                                        ),
+                                        minimumSize: Size(double.infinity, 70),
+                                      ),
+                                      child: Text('Рассчитать стоимость'),
+                                    ),
+                                  ),
+                                  SizedBox(height: 15),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'Ваша кoрзина',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 15),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text('Товары'),
+                                      Text(state.price.toString()),
+                                    ],
+                                  ),
+                                  Container(
+                                    height: 1,
+                                    width: double.infinity,
+                                    color: Colors.black,
+                                  ),
+                                  SizedBox(height: 30),
                                   Text(
-                                    'Ваша кoрзина',
+                                    'Общая стоимость:  ${state.price.toString()} BYN',
                                     style: TextStyle(
+                                      fontSize: 20,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ],
                               ),
-                              SizedBox(height: 15),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [Text('Товары'), Text('200')],
-                              ),
-                              Container(
-                                height: 1,
-                                width: double.infinity,
-                                color: Colors.black,
-                              ),
-                              SizedBox(height: 30),
-                              Text(
-                                'Общая стоимость:  200 BYN',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),
@@ -120,7 +134,11 @@ class BascetPages extends StatelessWidget {
                                 ),
                               ),
                               child: IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  BlocProvider.of<CartBloc>(
+                                    context,
+                                  ).add(DeleteAll());
+                                },
                                 icon: Icon(Icons.delete, color: Colors.white),
                               ),
                             ),
@@ -198,7 +216,11 @@ class CartProduct extends StatelessWidget {
                               ),
                               backgroundColor: Colors.red,
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              BlocProvider.of<CartBloc>(
+                                context,
+                              ).add(DeleteProduct(productCount.product.name));
+                            },
                             icon: Icon(Icons.delete, color: Colors.white),
                           ),
                         ),
@@ -212,9 +234,23 @@ class CartProduct extends StatelessWidget {
               children: [
                 Column(
                   children: [
-                    IconButton(onPressed: () {}, icon: Icon(Icons.add)),
+                    IconButton(
+                      onPressed: () {
+                        BlocProvider.of<CartBloc>(
+                          context,
+                        ).add(IncrementCountProduct(productCount.product.name));
+                      },
+                      icon: Icon(Icons.add),
+                    ),
                     Text(productCount.count.toString()),
-                    IconButton(onPressed: () {}, icon: Icon(Icons.minimize)),
+                    IconButton(
+                      onPressed: () {
+                        BlocProvider.of<CartBloc>(
+                          context,
+                        ).add(DecreaseCountProduct(productCount.product.name));
+                      },
+                      icon: Icon(Icons.minimize),
+                    ),
                   ],
                 ),
                 SizedBox(width: 10),

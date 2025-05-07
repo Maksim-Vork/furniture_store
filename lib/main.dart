@@ -5,7 +5,7 @@ import 'package:project/core/network/dio_service.dart';
 import 'package:project/features/cart/presentation/bloc/cart_bloc.dart';
 
 import 'package:project/features/catalog/data/datasources/product_remote_data_source.dart';
-import 'package:project/features/catalog/data/repositoryes/product_repository_impl.dart';
+import 'package:project/features/catalog/data/repository/product_repository_impl.dart';
 import 'package:project/features/catalog/domain/usecase/get_all_products.dart';
 import 'package:project/features/catalog/presentation/bloc/catalog_event.dart';
 import 'package:project/features/catalog/presentation/pages/catalog_screen.dart';

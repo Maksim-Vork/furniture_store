@@ -56,16 +56,20 @@ class CartBloc extends Bloc<BlocEvent, CartState> {
     final current = state.bascet.firstWhere(
       (product) => product.product.name == event.name,
     );
-    final double countUpdate = current.count - 1;
+    if (current.count > 1) {
+      final double countUpdate = current.count - 1;
 
-    final updatedProduct = current.copyWith(count: countUpdate);
+      final updatedProduct = current.copyWith(count: countUpdate);
 
-    final updatedBascet =
-        state.bascet.map((product) {
-          return product.product.name == event.name ? updatedProduct : product;
-        }).toList();
+      final updatedBascet =
+          state.bascet.map((product) {
+            return product.product.name == event.name
+                ? updatedProduct
+                : product;
+          }).toList();
 
-    emit(state.copyWith(bascet: updatedBascet));
+      emit(state.copyWith(bascet: updatedBascet));
+    }
   }
 
   void _onDeleteAll(DeleteAll event, Emitter<CartState> emit) {

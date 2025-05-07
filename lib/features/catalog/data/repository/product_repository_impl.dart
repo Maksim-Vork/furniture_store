@@ -12,4 +12,10 @@ class ProductRepositoryImpl implements ProductRepository {
     final dtoList = await remoteDataSource.getAllProducts();
     return dtoList.map((dto) => dto.toDomain()).toList();
   }
+
+  @override
+  Future<List<Product>> getSortMinProducts() async {
+    final dtoList = await remoteDataSource.getAllProducts();
+    return dtoList.map((dto) => dto.toDomain()).toList();
+  }
 }

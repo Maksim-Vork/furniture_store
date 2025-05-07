@@ -30,7 +30,7 @@ class ProductCard extends StatelessWidget {
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           Text(
-            '${product.name} BYN',
+            '${product.price} BYN',
             style: const TextStyle(color: Colors.green),
           ),
           const Spacer(),

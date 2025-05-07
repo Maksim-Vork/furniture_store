@@ -8,3 +8,5 @@ abstract class CatalogEvent extends Equatable {
 }
 
 class LoadProducts extends CatalogEvent {}
+
+class LoadSortMinProducts extends CatalogEvent {}

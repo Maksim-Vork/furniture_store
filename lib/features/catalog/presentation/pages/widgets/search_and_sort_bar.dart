@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project/features/catalog/presentation/bloc/catalog_bloc.dart';
+import 'package:project/features/catalog/presentation/bloc/catalog_event.dart';
 
 class SearchAndSortBar extends StatelessWidget {
   const SearchAndSortBar({super.key});
@@ -25,16 +28,36 @@ class SearchAndSortBar extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 12),
-        ElevatedButton(
-          onPressed: () {},
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.grey[800],
-            foregroundColor: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
+        Row(
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                BlocProvider.of<CatalogBloc>(
+                  context,
+                ).add(LoadSortMinProducts());
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.grey[800],
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+              ),
+              child: const Text("Min"),
             ),
-          ),
-          child: const Text("Сортировка"),
+            SizedBox(width: 10),
+            ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.grey[800],
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+              ),
+              child: const Text("Max"),
+            ),
+          ],
         ),
       ],
     );

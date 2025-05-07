@@ -6,6 +6,24 @@ class ProductRemoteDataSource {
 
   ProductRemoteDataSource(this.dioService);
 
+  Future<List<ProductDto>> getSortMinProducts() async {
+    try {
+      final response = await dioService.get(
+        '/api/v1/furniture?sortBy=price&order=asc',
+      );
+
+      final List<dynamic> listJson = response.data as List;
+      final List<ProductDto> listProduct =
+          listJson
+              .map((jsonProduct) => ProductDto.fromJson(jsonProduct))
+              .toList();
+      return listProduct;
+    } catch (e) {
+      print('Ошибка типа: $e');
+      return [];
+    }
+  }
+
   Future<List<ProductDto>> getAllProducts() async {
     try {
       final response = await dioService.get('/api/v1/furniture');

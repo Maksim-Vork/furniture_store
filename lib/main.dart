@@ -7,6 +7,7 @@ import 'package:project/features/cart/presentation/bloc/cart_bloc.dart';
 import 'package:project/features/catalog/data/datasources/product_remote_data_source.dart';
 import 'package:project/features/catalog/data/repository/product_repository_impl.dart';
 import 'package:project/features/catalog/domain/usecase/get_all_products.dart';
+import 'package:project/features/catalog/domain/usecase/get_sort_min_products.dart';
 import 'package:project/features/catalog/presentation/bloc/catalog_event.dart';
 import 'package:project/features/catalog/presentation/pages/catalog_screen.dart';
 import 'package:project/features/catalog/presentation/bloc/catalog_bloc.dart';
@@ -16,21 +17,35 @@ void main() {
   final remoteDataSource = ProductRemoteDataSource(dioService);
   final repository = ProductRepositoryImpl(remoteDataSource);
   final getAllProductsUseCase = GetAllProducts(repository);
+  final getSortMinProducts = GetSortMinProducts(repository: repository);
 
-  runApp(MyApp(catalogUseCase: getAllProductsUseCase));
+  runApp(
+    MyApp(
+      catalogUseCase: getAllProductsUseCase,
+      getSortMinProducts: getSortMinProducts,
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
   final GetAllProducts catalogUseCase;
+  final GetSortMinProducts getSortMinProducts;
 
-  const MyApp({super.key, required this.catalogUseCase});
+  const MyApp({
+    super.key,
+    required this.catalogUseCase,
+    required this.getSortMinProducts,
+  });
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<CatalogBloc>(
-          create: (context) => CatalogBloc(catalogUseCase)..add(LoadProducts()),
+          create:
+              (context) =>
+                  CatalogBloc(catalogUseCase, getSortMinProducts)
+                    ..add(LoadProducts()),
         ),
         BlocProvider<CartBloc>(create: (context) => CartBloc()),
       ],
